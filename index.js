@@ -15,7 +15,7 @@ const app = express();
 // --- THIS IS THE DEFINITIVE CORS FIX ---
 // The list of websites allowed to make requests to this server.
 const allowedOrigins = [
-  'https://sshs-frontend-8lad0dwf9-briviodarrens-projects.vercel.app/', // Your live frontend URL
+  'https://sshs-frontend.vercel.app/', // Your live frontend URL
   'http://localhost:5173'                                             // For local testing
 ];
 
