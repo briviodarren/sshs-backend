@@ -13,15 +13,14 @@ dotenv.config();
 const app = express();
 
 // --- THIS IS THE DEFINITIVE CORS FIX ---
-// The list of websites allowed to make requests to this server.
 const allowedOrigins = [
-  'https://sshs-frontend.vercel.app/', // Your live frontend URL
-  'http://localhost:5173'                                             // For local testing
+  'https://sshs-frontend.vercel.app', // Your live Vercel frontend
+  'http://localhost:5173'           // For local testing
 ];
 
 const corsOptions = {
   origin: allowedOrigins,
-  optionsSuccessStatus: 200 // For legacy browser support
+  optionsSuccessStatus: 200
 };
 
 // This must be one of the first middleware to run.
@@ -42,11 +41,13 @@ app.use('/api/users', userRoutes);
 app.use('/api/announcements', announcementRoutes);
 app.use('/api/classes', classRoutes);
 
-// Basic route for testing
 app.get('/', (req, res) => {
   res.send('SSHS API is running...');
 });
 
 const PORT = process.env.PORT || 5000;
+
+// A unique message to prove this deployment is live
+console.log("FINAL DEPLOYMENT: The correct CORS fix is running.");
 
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
