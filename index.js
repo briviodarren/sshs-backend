@@ -5,22 +5,35 @@ const fileupload = require('express-fileupload');
 
 // Route imports
 const userRoutes = require('./routes/userRoutes');
-const announcementRoutes = require('./routes/announcementRoutes'); // <-- CHECK THIS LINE
+const announcementRoutes = require('./routes/announcementRoutes');
 const classRoutes = require('./routes/classRoutes');
 
 dotenv.config();
 
 const app = express();
 
-// Middleware
+// --- THIS IS THE CRUCIAL FIX ---
+// Add your Netlify URL to this list
+const allowedOrigins = [
+  'https://your-netlify-site-url-goes-here.netlify.app', // PASTE YOUR LIVE URL HERE
+  'http://localhost:5173'                                 // For local testing
+];
+
 const corsOptions = {
-  origin: [
-    'https://sshs-smaksta.netlify.app/', // Your live frontend URL
-    'http://localhost:5173'                     // For local development
-  ],
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   optionsSuccessStatus: 200
 };
+
 app.use(cors(corsOptions));
+// -----------------------------
+
+// Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(fileupload({
@@ -31,7 +44,7 @@ app.use(fileupload({
 
 // API Routes
 app.use('/api/users', userRoutes);
-app.use('/api/announcements', announcementRoutes); // <-- AND CHECK THIS LINE
+app.use('/api/announcements', announcementRoutes);
 app.use('/api/classes', classRoutes);
 
 // Basic route for testing
@@ -40,7 +53,5 @@ app.get('/', (req, res) => {
 });
 
 const PORT = process.env.PORT || 5000;
-
-console.log("Forcing redeploy with SSL fix v2."); // You can remove this line if you want
 
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
