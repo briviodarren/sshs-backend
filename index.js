@@ -15,7 +15,7 @@ const app = express();
 // --- THIS IS THE CRUCIAL FIX ---
 // Add your Netlify URL to this list
 const allowedOrigins = [
-  'https://your-netlify-site-url-goes-here.netlify.app', // PASTE YOUR LIVE URL HERE
+  'https://sshs-frontend.vercel.app/', // PASTE YOUR LIVE URL HERE
   'http://localhost:5173'                                 // For local testing
 ];
 
