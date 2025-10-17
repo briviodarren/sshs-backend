@@ -12,21 +12,20 @@ dotenv.config();
 
 const app = express();
 
-// --- THIS IS THE NEW, MORE ROBUST CORS FIX ---
+// --- THIS IS THE FINAL, CORRECTED CORS FIX ---
 const allowedOrigins = [
   'https://sshs-frontend.vercel.app', // Your live frontend URL
   'http://localhost:5173'             // For local testing
 ];
 
 const corsOptions = {
-  origin: allowedOrigins
+  origin: allowedOrigins,
+  optionsSuccessStatus: 200 // For legacy browser support
 };
 
-// This MUST be the first middleware to run.
+// This MUST be the first middleware.
+// The crashing app.options('*', ...) line has been removed.
 app.use(cors(corsOptions));
-
-// Explicitly handle preflight requests
-app.options('*', cors(corsOptions));
 // ---------------------------------------------
 
 // Middleware
