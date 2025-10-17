@@ -14,7 +14,7 @@ const app = express();
 
 // --- THIS IS THE FINAL, CORRECTED CORS FIX ---
 const allowedOrigins = [
-  'https://sshs-frontend.vercel.app', // Your live frontend URL
+  'https://sshs-frontend-ajb0alw91-briviodarrens-projects.vercel.app/', // Your live frontend URL
   'http://localhost:5173'             // For local testing
 ];
 
