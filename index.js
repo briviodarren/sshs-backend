@@ -12,14 +12,26 @@ dotenv.config();
 
 const app = express();
 
-// --- THIS IS THE CRUCIAL FIX ---
-// Add your Netlify URL to this list
+// --- THIS IS THE DEFINITIVE FIX ---
 const allowedOrigins = [
-  'https://sshs-frontend.vercel.app/', // PASTE YOUR LIVE URL HERE
-  'http://localhost:5173'                                 // For local testing
+  'https://sshs-frontend.vercel.app', // Your live frontend URL is now allowed
+  'http://localhost:5173'             // For local testing
 ];
 
-app.use(cors());
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  optionsSuccessStatus: 200
+};
+
+app.use(cors(corsOptions));
+// ---------------------------------
+
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -34,7 +46,6 @@ app.use('/api/users', userRoutes);
 app.use('/api/announcements', announcementRoutes);
 app.use('/api/classes', classRoutes);
 
-// Basic route for testing
 app.get('/', (req, res) => {
   res.send('SSHS API is running...');
 });
