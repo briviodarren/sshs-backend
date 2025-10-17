@@ -15,7 +15,7 @@ const app = express();
 // Middleware
 const corsOptions = {
   origin: [
-    'https://your-netlify-site-name.netlify.app', // Your live frontend URL
+    'https://sshs-smaksta.netlify.app/', // Your live frontend URL
     'http://localhost:5173'                     // For local development
   ],
   optionsSuccessStatus: 200
