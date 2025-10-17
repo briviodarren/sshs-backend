@@ -12,25 +12,22 @@ dotenv.config();
 
 const app = express();
 
-// --- THIS IS THE DEFINITIVE FIX ---
+// --- THIS IS THE NEW, MORE ROBUST CORS FIX ---
 const allowedOrigins = [
-  'https://sshs-frontend.vercel.app', // Your live frontend URL is now allowed
+  'https://sshs-frontend.vercel.app', // Your live frontend URL
   'http://localhost:5173'             // For local testing
 ];
 
 const corsOptions = {
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  optionsSuccessStatus: 200
+  origin: allowedOrigins
 };
 
+// This MUST be the first middleware to run.
 app.use(cors(corsOptions));
-// ---------------------------------
+
+// Explicitly handle preflight requests
+app.options('*', cors(corsOptions));
+// ---------------------------------------------
 
 // Middleware
 app.use(express.json());
@@ -50,11 +47,6 @@ app.get('/', (req, res) => {
   res.send('SSHS API is running...');
 });
 
-// ... inside backend/index.js
-
 const PORT = process.env.PORT || 5000;
-
-// --- ADD THIS NEW LINE ---
-console.log("DEPLOYMENT FINGERPRINT: October 17th, 10:35 PM - CORS FIX");
 
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
