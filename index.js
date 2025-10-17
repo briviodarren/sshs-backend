@@ -50,6 +50,11 @@ app.get('/', (req, res) => {
   res.send('SSHS API is running...');
 });
 
+// ... inside backend/index.js
+
 const PORT = process.env.PORT || 5000;
+
+// --- ADD THIS NEW LINE ---
+console.log("DEPLOYMENT FINGERPRINT: October 17th, 10:35 PM - CORS FIX");
 
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
